@@ -81,10 +81,10 @@ class god_tony_update_script:
 
     def build_vdf(self):
         root = vdf.VDFDict()
-        root["Updater"] = vdf.VDFDict({"Information" : vdf.VDFDict({
-                                           "Version" : vdf.VDFDict({
-                                               "Latest" : str(self.version)})}), 
-                                       "Files" : self.files})
+        root["Updater"] = vdf.VDFDict()
+        root["Updater"]["Information"] = vdf.VDFDict()
+        root["Updater"]["Files"] = self.files
+        root["Updater"]["Information"]["Version"] = vdf.VDFDict({"Latest" : str(self.version)})
         for note in self.notes:
             root["Updater"]["Information"]["Notes"] = note
         return root
