@@ -19,4 +19,4 @@ git add "./$PROJECT_NAME/" -A
 git config --global user.name $USER_NAME
 git config --global user.email $USER_EMAIL
 git commit -m "Update '$PROJECT_NAME' to version $PROJECT_VERSION"
-git push "https://$OAUTH_TOKEN@github.com/$UPDATER_USER/$UPDATER_REPO.git"
+git push "https://$OAUTH_TOKEN@github.com/$UPDATER_USER/$UPDATER_REPO.git" --quiet
