@@ -77,7 +77,7 @@ main () {
 
 	# Import project info
 	if [[ ! -d $PROJECT_ROOT ]]; then
-		logger_simple_error "Root project path '$(format_underline $PROJECT_ROOT)' is not a valid directory." 1
+		logger_simple_error "Root project path '$(format_underline "$PROJECT_ROOT")' is not a valid directory." 1
 		return 3
 	fi
 
@@ -87,7 +87,7 @@ main () {
 	local import_config_error_code
 	source "$PROJECT_CONFIG_FILE" >"$import_config_error_file" 2>&1
 	import_config_error_code=$?
-	logger "Failed to import project configuration from '$(format_underline $PROJECT_CONFIG_FILE)'" \
+	logger "Failed to import project configuration from '$(format_underline "$PROJECT_CONFIG_FILE")'" \
 		 "$(cat "$import_config_error_file")" $import_config_error_code 1
 	if [[ ! $import_config_error_code -eq 0 ]]; then
 		return 2
@@ -102,17 +102,17 @@ main () {
 	case $? in
 		1) return 3
 		;;
-		2) logger_simple_error "Compiler directory '$(format_underline $COMP_ROOT)' is not a valid directory." 1; return 4
+		2) logger_simple_error "Compiler directory '$(format_underline "$COMP_ROOT")' is not a valid directory." 1; return 4
 		;;
-		3) logger_simple_error "Failed to find a valid executable on '$(format_underline $COMP_COMPILER_PATH)' to use as compiler." 1; return 5
+		3) logger_simple_error "Failed to find a valid executable on '$(format_underline "$COMP_COMPILER_PATH")' to use as compiler." 1; return 5
 		;;
-		4) logger_simple_error "'$(format_underline $PARSED_BUILD_OPTION)' is not a valid build option." 1; return 6
+		4) logger_simple_error "'$(format_underline "$PARSED_BUILD_OPTION")' is not a valid build option." 1; return 6
 		;;
 	esac
 
 	BUILD_STEP=1
 
-	logger "- Build process started for project '$(format_underline $PROJECT_SHORTNAME)'" "" "" 1
+	logger "- Build process started for project '$(format_underline "$PROJECT_SHORTNAME")'" "" "" 1
 	logger "Gathering version from git repository on the project root..."
 	local version_error="Failed to get version info from git:"
 	get_version
@@ -153,7 +153,7 @@ main () {
 		if [[ ! $? -eq 0 ]]; then return 15; fi
 	fi
 
-	logger "- Build process successfully completed for project '$(format_underline $PROJECT_SHORTNAME)'" "" "" 1
+	logger "- Build process successfully completed for project '$(format_underline "$PROJECT_SHORTNAME")'" "" "" 1
 }
 
 get_version () {
@@ -216,7 +216,7 @@ build_updater_include () {
 
 build_updater_manifest () {
 	logger "Building updater manifest..."
-	local release_notes; IFS=$'\n' read -d '' -r -a release_notes <<< "$(updater_format_notes $VERSION)"; unset IFS
+	local release_notes; IFS=$'\n' read -d '' -r -a release_notes <<< "$(updater_format_notes "$VERSION")"; unset IFS
 	logger "Failed to build updater manifest." \
 		"$(python3 "$UPDATER_SCRIPTS_PATH/updater_script_gen.py" \
 			--sm_path "$PACKAGE_ROOT_PATH" \
@@ -278,7 +278,7 @@ archive () {
 	local saved_cwd="$(pwd)"
 	logger "Archiving package..."
 
-	local archive_path="$(package_format_archive_path $VERSION_TAG $VERSION_COMMIT)"
+	local archive_path="$(package_format_archive_path "$VERSION_TAG" "$VERSION_COMMIT")"
 	if [[ -f "$archive_path" ]]; then
 		logger_simple_error "Failed to create archive on path '$(format_underline "$archive_path")', file already exists. "
 		return 2
