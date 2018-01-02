@@ -135,13 +135,13 @@ main () {
 	build_updater_include
 	if [[ ! $? -eq 0 ]]; then return 11; fi
 	((BUILD_STEP++))
-	
-	build_updater_manifest
-	if [[ ! $? -eq 0 ]]; then return 12; fi
-	((BUILD_STEP++))
 
 	compile
 	if [[ ! $? -eq 0 ]]; then return 13; fi
+	((BUILD_STEP++))
+	
+	build_updater_manifest
+	if [[ ! $? -eq 0 ]]; then return 12; fi
 	((BUILD_STEP++))
 
 	archive
