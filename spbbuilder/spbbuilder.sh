@@ -285,7 +285,7 @@ archive () {
 	fi
 	logger "Failed to archive package to '$(format_underline "$archive_path")'." \
 		"$(
-			relative_archive_path="$(realpath --relative-to="$PACKAGE_ROOT_PATH" "$archive_path")"; \
+			relative_archive_path="$(readlink -f "$archive_path")"; \
 			$(exit $?) && cd "$PACKAGE_ROOT_PATH" 2>&1 >/dev/null && zip -qr $relative_archive_path . \
 		)" $?
 
