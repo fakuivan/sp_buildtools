@@ -67,7 +67,7 @@ class SpcompExceptionHandler:
 
 
 def get_compiler_filename() -> PurePath:
-    return PurePath("spcomp" + ".exe" if os.name == "nt" else "")
+    return PurePath("spcomp" + (".exe" if os.name == "nt" else ""))
 
 
 def get_compiler_from_include(include_path: Path) -> Optional[Path]:
